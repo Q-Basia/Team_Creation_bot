@@ -36,12 +36,14 @@ async def team(ctx):
         # checks to see if team already exists and creates a new team if the team does not exist
         if role_check == None:
             await ctx.send(f'{ctx.author.mention}Your team {role_name} has been created!')
+            # Creates a category, voice channel, and text channel for the team
             cat = await ctx.guild.create_category(name= role_name)
             await ctx.guild.create_text_channel(name=role_name, category = cat)
             await ctx.guild.create_voice_channel(name=role_name, category=cat)
             role = await ctx.guild.create_role(name=role_name)
             members = ctx.message.mentions
             await author.add_roles(role)
+            # Adds the created role to all team members
             for i in members:
                 await i.add_roles(role)
         else:
