@@ -12,12 +12,9 @@ from dotenv.main import find_dotenv
 load_dotenv(find_dotenv())
 TOKEN = os.environ.get("TOKEN")
 
-
 COUNT =0
+# This line sets the prefix for any user activatable commands
 client = commands.Bot(command_prefix="?")
-
-
-
 
 @client.event
 async def on_ready():
@@ -27,12 +24,16 @@ async def on_ready():
 # async def on_typing(channel,user,when):
 #     await channel.send(f'{user.mention} is a slow ass typer like hurry up you bitch, even my grandma is faster than you like come on!') 
 
+# This is the default code for allowing users to designated themselves into a team
 @client.command()
 async def team(ctx):
     author = ctx.message.author
+    # checks to make sure command is issued in a team-create channel
     if ctx.message.channel.name == "team-create":
+        # creates the name of the team from the message sent
         role_name = ctx.message.content.split(maxsplit = 1)[1].split('<', maxsplit = 1)[0]
         role_check = get(ctx.guild.categories, name = role_name)
+        # checks to see if team already exists and creates a new team if the team does not exist
         if role_check == None:
             await ctx.send(f'{ctx.author.mention}Your team {role_name} has been created!')
             cat = await ctx.guild.create_category(name= role_name)
@@ -54,7 +55,5 @@ async def team(ctx):
 #     COUNT+= 1
 #     # await message.channel.send("message")
 
-
-
-        
+# Runs the bot with all applicable commands required   
 client.run(TOKEN)
