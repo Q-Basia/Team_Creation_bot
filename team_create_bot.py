@@ -20,10 +20,6 @@ client = commands.Bot(command_prefix="?")
 async def on_ready():
     print('We have logged in as {0.user}'.format(client))
 
-# @client.event 
-# async def on_typing(channel,user,when):
-#     await channel.send(f'{user.mention} is a slow ass typer like hurry up you bitch, even my grandma is faster than you like come on!') 
-
 # This is the default code for allowing users to designated themselves into a team
 @client.command()
 async def team(ctx):
