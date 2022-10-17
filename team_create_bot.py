@@ -12,9 +12,9 @@ from dotenv.main import find_dotenv
 load_dotenv(find_dotenv())
 TOKEN = os.environ.get("TOKEN")
 
-COUNT =0
+COUNT = 0
 # This line sets the prefix for any user activatable commands
-client = commands.Bot(command_prefix="?")
+client = commands.Bot(command_prefix="#")
 
 @client.event
 async def on_ready():
