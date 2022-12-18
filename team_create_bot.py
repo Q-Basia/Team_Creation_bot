@@ -1,3 +1,4 @@
+import asyncio
 import discord
 import os
 from discord.channel import CategoryChannel
@@ -10,20 +11,33 @@ from discord.utils import find, get
 from dotenv import load_dotenv
 from dotenv.main import find_dotenv
 load_dotenv(find_dotenv())
-TOKEN = os.environ.get("TOKEN")
+TOKEN = os.environ.get("DISCORD_TOKEN")
 
 COUNT = 0
 # This line sets the prefix for any user activatable commands
-client = commands.Bot(command_prefix="#")
+intents = discord.Intents.all()
+bot = commands.Bot(command_prefix="$", intents = intents)
 
-@client.event
+@bot.event
 async def on_ready():
-    print('We have logged in as {0.user}'.format(client))
-    
+    print('We have logged in as {0.user}'.format(bot))
 
+# @tasks.loop(count=1) 
+# async def get_roles():
+#     '''runs one time and prints all roles to stdout'''
+#     await bot.wait_until_ready() # waits for bot to be ready
+#     guild = bot.get_guild() # gets the guild object from an ID
+#     roles = guild.roles # list of roles in guild
+#     print('\n'.join(r.name for r in roles))  # prints the role names,
+@bot.command(name = 'guilds')
+async def get_roles(ctx):
+    guild = ctx.guild
+    roles = guild.roles
+    print(roles)
+    return roles
 
 # This is the default code for allowing users to designated themselves into a team
-@client.command()
+@bot.command()
 async def team(ctx):
     author = ctx.message.author
     guild = ctx.guild
@@ -37,9 +51,10 @@ async def team(ctx):
     if ctx.message.channel.name == "team-create":
         # creates the name of the team from the message sent
         role_name = ctx.message.content.split(maxsplit = 1)[1].split('<', maxsplit = 1)[0]
-        role_check = get(ctx.guild.roles, name = role_name)
         # checks to see if team already exists and creates a new team if the team does not exist
-        if role_check == None:
+        if get(ctx.guild.roles, name = role_name):
+            await ctx.send(f'Hey {ctx.author.mention}, Team {role_name} has already been taken please use another one')
+        else:
             # Creates a category, voice channel, and text channel for the team
             cat = await ctx.guild.create_category(name= role_name)
             # Makes the role
@@ -52,17 +67,15 @@ async def team(ctx):
             await cat.set_permissions(volunteer, read_messages=True)
             await cat.set_permissions(role, read_messages=True)
             # Creates the text and voice channel
-            await ctx.guild.create_text_channel(name=role_name, category = cat, sync_permissions=True)
-            await ctx.guild.create_voice_channel(name=role_name, category=cat, sync_permissions=True)
+            await ctx.guild.create_text_channel(name=role_name, category = cat)
+            await ctx.guild.create_voice_channel(name=role_name, category=cat)
             # Gets team members
             members = ctx.message.mentions
             await author.add_roles(role)
             # Adds the created role to all team members
             for i in members:
                 await i.add_roles(role)
-            await ctx.send(f'{ctx.author.mention}Your team {role_name} has been created!')
-        else:
-            await ctx.send(f'{ctx.author.mention}Team name has already been taken please use another one')
+            await ctx.send(f'Hey {ctx.author.mention}, Your team {role_name} has been created!')
 
-# Runs the bot with all applicable commands required   
-client.run(TOKEN)
+
+bot.run(TOKEN)
