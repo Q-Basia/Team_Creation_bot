@@ -1,6 +1,6 @@
 # discord_team_creation_bot
 
-This bot was updated and tremendously improved, from the forked original, and utilized in the 2023 HackED hakathon hosted by the Computer ENgineering Club at the University Of ALberta.
+This bot was updated and tremendously improved, from the forked original, and utilized in the 2023 HackED hackathon hosted by the Computer Engineering Club at the University Of Alberta.
 
 This bot was utilized during the 24 event by 600 students and recent graduates to create their teams which includes creating a category, text and voice channels as well as generating a role name, which is the same as the names given the the category and the channels. This team creation is to provide the participants a space to communicate with one another in a group setting with the organizers of the hackathon as well as sponsors, mentors and volunteers. The discord server is monitored by the Organizers.
 
