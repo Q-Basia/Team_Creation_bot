@@ -10,6 +10,6 @@ To have this bot used succesfully the server requires having 4 roles:
 - Mentor
 - Volunteer
 
-The list, safe_roles, contains all the roles that are not teams.
+The list, safe_roles, contains all the roles that are not teams. So if you are using this bot, you will have to update your safe_roles list to accomodate your server
  
 To have your own bot use this code follow the discord developer panel info on how to create a bot. Please note you will need to replace the TOKEN value with your bots unique token.
